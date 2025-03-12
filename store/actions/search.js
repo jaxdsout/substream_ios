@@ -12,11 +12,13 @@ import {
 
 import axios from 'axios';
 
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+const apiURL = process.env.EXPO_PUBLIC_API_URL;
+
 export const auto_search = (searchString, filter, region) => async (dispatch) => {
     try {
         const string = encodeURIComponent(searchString);
-        console.log(`${process.env.REACT_APP_API_URL}/autocomplete-search/?apiKey=${process.env.REACT_APP_KEY}&search_value=${string}&search_type=${filter}&region=${region}}`)
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/autocomplete-search/?apiKey=${process.env.REACT_APP_KEY}&search_value=${string}&search_type=${filter}&region=${region}}`);
+        const res = await axios.get(`${apiKey}/autocomplete-search/?apiKey=${apiURL}&search_value=${string}&search_type=${filter}&region=${region}}`);
         dispatch({ type: SEARCH_SUCCESS, payload: res.data.results });
         console.log(res.data.results)
     } catch (err) {
@@ -24,9 +26,9 @@ export const auto_search = (searchString, filter, region) => async (dispatch) =>
     }
 };
 
-export const load_choice = (choice_id, region) => async (dispatch) => {
+export const load_choice = (id, region) => async (dispatch) => {
     try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/title/${choice_id}/details/?apiKey=${process.env.REACT_APP_KEY}&append_to_response=sources&regions=${region}`);
+        const res = await axios.get(`${apiKey}/title/${id}/details/?apiKey=${apiURL}&append_to_response=sources&regions=${region}`);
         dispatch({ type: LOAD_CHOICE_SUCCESS, payload: res.data });
     } catch (err) {
         dispatch({ type: LOAD_CHOICE_FAIL });
