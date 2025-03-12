@@ -1,43 +1,48 @@
-import { View, Text, TextInput } from 'react-native';
-import React from 'react';
-import { useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useLocalSearchParams, router, usePathname } from 'expo-router';
 import { connect } from 'react-redux';
 import { auto_search, change_filter, clear_search, set_search_string } from "../store/actions/search"
 import SearchIcon from '@expo/vector-icons/FontAwesome';
-import FilterIcon from '@expo/vector-icons/FontAwesome5';
+import { useDebouncedCallback } from 'use-debounce';
 
 
-const Search = ({ auto_search, change_filter, clear_search, set_search_string, searchString, filter, region }) => {
+const Search = ({ auto_search, clear_search, set_search_string, searchString, filter, region }) => {
   const params = useLocalSearchParams();
   const [search, setSearch] = useState(params.query || '');
 
-  const handleSearchChange = () => {
-    set_search_string(search)
-  }
-  
-  const handleSubmit = () => {
-    auto_search(searchString, filter, region)
-  }
+  const debouncedSearch = useDebouncedCallback((text) => {
+    router.setParams({ query: text });
+  }, 500);
+
+  const handleSearch = (text) => {
+    setSearch(text);
+    debouncedSearch(text);
+    set_search_string(text)
+  };
+
+  const handleSubmit = async () => {
+    if (search.trim()) {
+      await auto_search(search, filter, region);
+    }
+  };
 
   return (
-    <View className='bg-white flex flex-row w-11/12 rounded-full px-4 h-[4rem] items-center'>
+    <View className='flex flex-row'>
       <SearchIcon name="search" size={24} color="black" />
       <TextInput
         value={search}
-        onChangeText={handleSearchChange}
+        onChangeText={handleSearch}
         onSubmitEditing={handleSubmit}
         placeholder='Search...'
-        className='text-sm ml-2 flex-1'
+        placeholderTextColor="black"
+        className='text-sm ml-2 flex-1 text-black'
+        style={{ color: "#000000" }}
         returnKeyType="search"
       />
-      <TextInput>
-        <FilterIcon name="filter" size={24} color="black" />
-      </TextInput>
     </View>
   )
 }
-
 
 const mapStateToProps = (state) => ({
   filter: state.filter,
@@ -46,7 +51,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  auto_search: (searchString, id, region) => dispatch(auto_search(searchString, id, region)),
+  auto_search: (search, id, region) => dispatch(auto_search(search, id, region)),
   change_filter: () => dispatch(change_filter()),
   clear_search: () => dispatch(clear_search()),
   set_search_string: (value) => dispatch(set_search_string(value))
