@@ -14,7 +14,7 @@ const Index = ({ clear_search }) => {
   return (
     <SafeAreaView className="h-full bg-black">
       <View className="flex flex-col items-center justify-center">
-        <View className="mt-[20rem] flex-col items-center justify-center">
+        <View className="mt-[20rem] flex-col items-center justify-center z-50">
           <TouchableOpacity onPress={handleLogoClick}>
             <Text className="text-[#a5d294] font-bungee text-6xl italic">SUBSTREAM</Text>
           </TouchableOpacity>

@@ -21,7 +21,7 @@ const Results = ({ results, load_choice, auto_search, filter, region, searchStri
   console.log(results, "results on results page")
   return (
     <SafeAreaView>
-      <View className='border-2 border-black pt-[2rem] pb-[25rem] border-b-[1rem] rounded-xl'>
+      <View className='border-2 border-black pt-[2rem] pb-[25rem] border-b-[1rem] rounded-xl z-20'>
         <FlatList
           data={results}
           keyExtractor={(item) => item.id.toString()}

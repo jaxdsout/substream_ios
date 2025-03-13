@@ -23,28 +23,31 @@ const Filter = ({ change_filter, filter }) => {
   return (
     <SafeAreaView>
       <TouchableWithoutFeedback onPress={() => setOpen(false)}>
-        <View className="relative">
-          {isOpen ? (
-            <View className="absolute top-10 -right-5 border-2 border-[#a5d294] bg-[#0e0e0e] px-3 py-3 h-[10rem] rounded-xl z-50">
-              <Text className="text-[#a5d294] text-xs mb-2">CONTENT SELECTION</Text>
-              <FlatList
-                data={filters}
-                keyExtractor={(item) => item.key}
-                numColumns={1}
-                keyboardShouldPersistTaps="handled" // Ensures taps inside FlatList are registered
-                renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleSelect(item)}>
-                    <Text className="text-[#a5d294] text-[1.2rem] mb-3">{item.text}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-          ) : (
-            <TouchableOpacity onPress={toggleDropdown}>
-              <FilterIcon name="filter" size={16} color="#a5d294" />
-            </TouchableOpacity>
-          )}
+        <View>
+          <TouchableOpacity onPress={toggleDropdown}>
+            <FilterIcon name="filter" size={16} color={isOpen ? "white" : "#a5d294"} />
+          </TouchableOpacity>
+    
+          <View className="relative z-40">
+            {isOpen && (
+              <View className="absolute top-10 -right-5 border-2 border-[#a5d294] bg-[#0e0e0e] px-3 py-3 h-[13rem] w-[7rem] rounded-xl z-40">
+                <Text className="text-[#a5d294] text-xs mb-4">CONTENT SELECTION</Text>
+                <FlatList
+                  data={filters}
+                  keyExtractor={(item) => item.key}
+                  numColumns={1}
+                  keyboardShouldPersistTaps="handled"
+                  renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => handleSelect(item)}>
+                      <Text className="text-[#a5d294] text-[1.2rem] mb-4">{item.text}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            )}
+          </View>
         </View>
+        
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );

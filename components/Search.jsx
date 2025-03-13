@@ -46,6 +46,8 @@ const Search = ({ auto_search, clear_search, set_search_string, searchString, fi
             placeholderTextColor="#a5d294"
             className='text-xl ml-6 flex-1 mb-2 text-[#a5d294] items-center justify-center'
             returnKeyType="search"
+            cursorColor={"#a5d294"}
+            selectionColor={"#a5d294"}
           />
         </TouchableWithoutFeedback>
         {searchString && (
