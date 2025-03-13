@@ -1,23 +1,37 @@
-import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, TouchableOpacity, View, SafeAreaView } from "react-native";
 import Search from "@/components/Search"
-import Filter from "@/components/Filter";
 import Results from "@/components/Results";
-import { NavigationContainer } from '@react-navigation/native';
+import { clear_search } from "@/store/actions/search";
+import { connect } from "react-redux";
 
-export default function Index() {
+
+const Index = ({ clear_search }) => {
+
+  const handleLogoClick = () => {
+    clear_search();
+  }
+
   return (
     <SafeAreaView className="h-full bg-black">
-      <View className="flex flex-col items-center justify-center mt-10">
-        <View className="mt-28">
-          <Text className="text-[#a5d294] font-bungee text-6xl italic">SUBSTREAM</Text>
-        </View>
-        <View className='bg-[#a5d294] flex flex-row w-11/12 rounded-full px-4 h-[4rem] items-center border-2 border-white text-black'>
+      <View className="flex flex-col items-center justify-center">
+        <View className="mt-[20rem] flex-col items-center justify-center">
+          <TouchableOpacity onPress={handleLogoClick}>
+            <Text className="text-[#a5d294] font-bungee text-6xl italic">SUBSTREAM</Text>
+          </TouchableOpacity>
           <Search />
-          {/* <Filter /> */}
         </View>
         <Results />
       </View>
     </SafeAreaView>
   );
 }
+
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  clear_search: () => dispatch(clear_search()),
+});
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

@@ -21,15 +21,16 @@ const Results = ({ results, load_choice, auto_search, filter, region, searchStri
   console.log(results, "results on results page")
   return (
     <SafeAreaView>
-      <View className='border-2 border-black pt-2 pb-48 border-b-[1rem] rounded-xl shadow-inner'>
+      <View className='border-2 border-black pt-[2rem] pb-[25rem] border-b-[1rem] rounded-xl'>
         <FlatList
           data={results}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <Card result={item} />}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: 'space-between' }}
-          contentContainerStyle={{ paddingBottom: 8, paddingHorizontal: 0 }}
+          contentContainerStyle={{ paddingBottom: 10, paddingHorizontal: 0 }}
           showsVerticalScrollIndicator={false}
+          scrollToOverflowEnabled={true}
           
         />
       </View>
