@@ -29,12 +29,12 @@ const Choice = ({ choice, back_to_results }) => {
             <View className="absolute top-0 left-0 w-full h-full bg-black/90"></View>
 
             <View className="flex flex-col items-center justify-center z-10 p-4">
-              <TouchableOpacity onPress={handleBack} className='rounded-full border-2 border-[#658c57] w-[4rem] h-[5rem] flex flex-col items-center justfify-center'>
-                <AntDesign name="back" size={36} color="#a5d294" className='mb-4 mt-4' style={{ zIndex: 5 }} />
+              <TouchableOpacity onPress={handleBack} className=' bg-stone-900/60 rounded-full border-2 border-[#658c57] w-[4rem] h-[4rem] flex flex-col items-center justfify-center'>
+                <AntDesign name="back" size={24} color="#a5d294" className='mb-4 mt-4' style={{ zIndex: 5 }} />
               </TouchableOpacity>
 
               <View className='flex flex-col items-center justify-center'>
-                <View className='flex flex-row p-2 items-center justify-center mt-4'>
+                <View className='flex flex-row p-2 items-center justify-center mt-4 bg-stone-900/60 rounded-lg'>
                   <Image source={{ uri: choice.posterLarge }} style={{ height: 225, width: 150, borderRadius: 10 }} />
                   <View className='flex flex-col items-start justify-center w-1/2 col-span-2 ml-4'>
                     <Text className='text-[#a5d294] font-bold w-11/12'>{choice.title.toUpperCase()}</Text>
@@ -50,21 +50,14 @@ const Choice = ({ choice, back_to_results }) => {
                         Genre: {choice?.genre_names?.join(', ')}
                       </Text>
                     </View>
+                    <Reviews />
                   </View>
                 </View>
-
-                <View className='flex flex-col items-center justify-center mt-4'>
-                  <Text className='text-[#a5d294] font-bold font-bungee mb-2'>
-                    SOURCES
-                  </Text>
-                  <Sources />
+                <View className='mt-5'>
+                  <Text className='font-bungee text-[#a5d294]'>SOURCES</Text>
                 </View>
-
-                <View className='flex flex-col items-center justify-center mt-6'>
-                  <Text className='text-[#a5d294] font-bold font-bungee'>
-                    REVIEWS
-                  </Text>
-                  <Reviews />
+                <View className='flex flex-row items-center justify-center mt-4'>
+                  <Sources />
                 </View>
               </View>
             </View>

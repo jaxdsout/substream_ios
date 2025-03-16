@@ -7,21 +7,20 @@ const logoMap = {
   "MAX": logos.MaxLogo,
   "Netflix": logos.NetflixLogo,
   "Hulu": logos.HuluLogo,
-  "Paramount Plus": logos.ParamountLogo,
-  "Paramount+ with Showtime": logos.ParamountLogo,
+  "Paramount+": logos.ParamountLogo,
   "Disney+": logos.DisneyLogo,
   "STARZ": logos.StarzLogo,
   "Tubi TV": logos.TubiLogo,
   "Prime Video": logos.PrimeLogo,
-  "Peacock Premium": logos.PeacockLogo,
+  "Peacock": logos.PeacockLogo,
   "Pluto TV": logos.PlutoLogo,
   "MGM+": logos.MGMLogo,
   "Shudder": logos.ShudderLogo,
   "AMC+": logos.AMCLogo,
   "The CW": logos.CWLogo,
+  "Amazon Freevee": logos.FreeveeLogo,
   "Discovery+": logos.DiscoveryLogo,
   "Crackle": logos.CrackleLogo,
-  "Amazon Freevee": logos.PrimeLogo,
   "AppleTV+": logos.AppleTVLogo,
   "The Roku Channel": logos.RokuLogo,
   "fuboTV": logos.FuboLogo,
@@ -35,24 +34,36 @@ const Sources = ({ choice, region }) => {
     const [filteredSources, setFilteredSources] = useState([]);
 
     function filterUniqueSources(sources) {
-      const subSources = [];
-      const sourceNames = new Set();  
-  
+      const subSources = new Map();
+    
+      function normalizeName(name) {
+        if (name === "Paramount+ with Showtime" || name === "Paramount Plus") {
+          return "Paramount+";
+        }
+        
+        if (name === "Peacock Premium") {
+          return "Peacock";
+        }
+
+        return name;
+      }
+    
       for (const source of sources) {
         let { name, type, web_url } = source;
-        const sourceKey = `${name}-${type}`;
-        const logo = logoMap[name] || null;
+        const normalizedName = normalizeName(name);
+        const sourceKey = `${normalizedName}`;
+        const logo = logoMap[normalizedName] || null;
         
-        if ((type === "sub" && !sourceNames.has(sourceKey) && !/(?:\(Via|\(via|On Demand)/.test(name)) || (type === 'free')) {
-          subSources.push({ ...source, name, web_url, logo });
-          sourceNames.add(sourceKey);
+        if ((type === "sub" || type === "free") && !/(?:\(Via|\(via|On Demand)/.test(name)) {
+          if (!subSources.has(normalizedName)) {
+            subSources.set(sourceKey, { ...source, name: normalizedName, web_url, logo });
+          }
         }
       }
       
-      return subSources;
+      return Array.from(subSources.values());
     }
 
-    console.log([choice.sources])
     
     useEffect(() => {
         if (choice.sources) {
@@ -60,19 +71,14 @@ const Sources = ({ choice, region }) => {
         }
     }, [choice]);
 
-    console.log(filteredSources)
-
-
   if (filteredSources.length === 0) return (
-    <SafeAreaView>
-      <View className='border-2 border-[#658c57] rounded-full p-4 w-11/12 '>
+      <View className='bg-stone-900/60 rounded-full py-8 px-3 w-11/12 flex flex-col items-center justify-center '>
         <Text className="text-[#a5d294] text-center w-60"> This content is currently not streaming on {region} platforms.</Text>
       </View>
-    </SafeAreaView>
   )
   
   return (
-    <View className='flex flex-row items-center justify-center border-2 border-[#658c57] rounded-full py-3 w-11/12'>
+    <View className='bg-stone-900/60  rounded-full py-8 px-3 w-full'>
       <FlatList
         data={filteredSources}
         contentContainerStyle={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}
@@ -81,7 +87,7 @@ const Sources = ({ choice, region }) => {
             {item && <Image source={item.logo} style={{ height: '75', width: '75', borderRadius: '10' }} />}
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => `${item.name}-${item.type}`}
+        keyExtractor={(item) => `${item.name}`}
         scrollEnabled={false}
       />
     </View>

@@ -1,22 +1,24 @@
 import { FlatList, SafeAreaView, View, Text } from 'react-native'
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import Card from "@/components/Card"
 import { connect } from 'react-redux'
 
 const Results = ({ results, region, isLoaded, searchString }) => {
+  const resultsRef = useRef(null);
 
-  if ((!results || results.length < 1) && isLoaded) return (
-    <SafeAreaView>
-      <View className='text-center mt-8'>
-        <Text className="text-[#a5d294]">No results for '<Text className='font-bold'>{searchString}</Text>' on {region} platforms.</Text>
-      </View>
-    </SafeAreaView>
+  useEffect(() => {
+    if (results.length > 0) {
+      if (resultsRef.current) {
+        resultsRef.current.scrollToOffset({ animated: true, offset: 0 });
+      }
+    }
+  }, [results, resultsRef]);
 
-  );
-
-  return (
+  if ((results.length > 0) && isLoaded) {
+    return (
       <View style={{ zIndex: 3 }} className='border-2 border-black pt-[2rem] pb-[19rem] border-b-[1rem] rounded-xl w-11/12'>
           <FlatList
+            ref={resultsRef}
             data={results}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <Card result={item} />}
@@ -24,11 +26,17 @@ const Results = ({ results, region, isLoaded, searchString }) => {
             columnWrapperStyle={{ justifyContent: 'space-between', alignItems: 'center' }}
             contentContainerStyle={{ paddingBottom: 10, paddingHorizontal: 0, alignItems: 'center' }}
             showsVerticalScrollIndicator={false}
-            scrollToOverflowEnabled={true}
           />
       </View>
-
-  )
+    )
+  } else if ((results.length <= 0) && isLoaded) {
+    return (
+      <View className='mt-8 w-11/12 flex flex-col items-center justify-center'>
+        <Text className="text-[#a5d294] text-center ">No results for '<Text className='font-bold'>{searchString}</Text>' on {region} platforms.</Text>
+      </View>
+    );
+  } 
+  
 }
 
 const mapStateToProps = state => ({
@@ -38,8 +46,4 @@ const mapStateToProps = state => ({
   searchString: state.searchString
 })
 
-const mapDispatchToProps = (dispatch) => ({
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Results);
+export default connect(mapStateToProps, { })(Results);

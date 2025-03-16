@@ -15,19 +15,16 @@ const Reviews = ({ choice }) => {
     }
 
     return (
-    <View className='flex-row border-2 border-[#658c57] rounded-full py-3 px-8 w-full mt-2 justify-start items-center'>
-        <View>
-            <TouchableOpacity onPress={() => handleIcon("imdb")}>
-                <Image source={logos.imdbLogo} style={{ height: '75', width: '75', borderRadius: '10' }}/>
+    <View className='flex flex-row justify-center items-center mt-3'>
+        <TouchableOpacity onPress={() => handleIcon("imdb")}>
+            <Image source={logos.imdbLogo} style={{ height: '50', width: '50', borderRadius: '10', marginHorizontal: '10' }}/>
+        </TouchableOpacity>
+    
+        {choice?.type === "movie" && (
+            <TouchableOpacity onPress={() => handleIcon("letter")}>
+                <Image source={logos.letterLogo} style={{ height: '50', width: '50', borderRadius: '10', marginHorizontal: '10' }}/>
             </TouchableOpacity>
-        </View>
-        <View>
-            {choice?.type === "movie" && (
-                <TouchableOpacity onPress={() => handleIcon("letter")}>
-                    <Image source={logos.letterLogo} style={{ height: '75', width: '75', borderRadius: '10' }}/>
-                </TouchableOpacity>
-            )}
-        </View>
+        )}
     </View>
     )
 }
