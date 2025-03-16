@@ -11,6 +11,7 @@ import Filter from "@/components/Filter";
 const Search = ({ auto_search, clear_search, set_search_string, searchString, filter, region }) => {
   const params = useLocalSearchParams();
   const [search, setSearch] = useState(params.query || '');
+  const [pressed, setPressed] = useState(false)
 
   const debouncedSearch = useDebouncedCallback((text) => {
     router.setParams({ query: text });
@@ -34,8 +35,7 @@ const Search = ({ auto_search, clear_search, set_search_string, searchString, fi
   };
 
   return (
-    <SafeAreaView>
-      <View className='bg-[#0e0e0e] flex flex-row w-11/12 rounded-full px-6 h-[4rem] items-center justify-center border-2 border-[#a5d294] text-black'>
+      <View style={{ zIndex: 50}} className='bg-[#0e0e0e] flex flex-row w-11/12 rounded-full px-6 h-[4rem] items-center justify-center border-2 border-[#a5d294] text-black'>
         <SearchIcon name="search" size={24} color="#a5d294" />
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <TextInput
@@ -51,14 +51,16 @@ const Search = ({ auto_search, clear_search, set_search_string, searchString, fi
           />
         </TouchableWithoutFeedback>
         {searchString && (
-          <TouchableOpacity onPress={handleClear}>
-            <AntDesign name="closecircleo" size={24} color="#a5d294" className='px-5' />
+          <TouchableOpacity 
+            onPress={handleClear}
+            onPressIn={() => setPressed(true)}
+            onPressOut={() => setPressed(false)}
+          >
+            <AntDesign name="closecircleo" size={24} className='px-5' style={{ color: pressed ? "#ff0000" : "#a5d294" }}/>
           </TouchableOpacity>
         )}
         <Filter />
       </View>
-   
-    </SafeAreaView>
   )
 }
 

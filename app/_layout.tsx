@@ -5,6 +5,7 @@ import { useFonts } from "expo-font"
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import "./global.css"
+import { SafeAreaView, SafeAreaViewBase } from "react-native";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +25,7 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <Stack screenOptions={{ headerShown: false }}/>
+        <Stack screenOptions={{ headerShown: false, headerTitleAlign: "center" }}/>
     </Provider>
   )
 }

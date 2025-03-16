@@ -21,6 +21,9 @@ import KanopyLogo from "@/assets/logos/kanopy.png"
 import RokuLogo from "@/assets/logos/rokulogo.png"
 import imdbLogo from "@/assets/logos/imdblogo.png"
 import letterLogo from "@/assets/logos/letterboxdlogo.png"
+import trutvLogo from "@/assets/logos/trutv.png"
+import tntLogo from "@/assets/logos/tnt.png"
+import tbsLogo from "@/assets/logos/TBS.png"
 
 export default {
     MaxLogo,
@@ -45,5 +48,8 @@ export default {
     KanopyLogo,
     RokuLogo,
     imdbLogo,
-    letterLogo
+    letterLogo,
+    trutvLogo,
+    tntLogo,
+    tbsLogo
 }

@@ -6,7 +6,8 @@ import {
     CLEAR_SEARCH,
     BACK_TO_RESULTS,
     CHANGE_FILTER,
-    SET_SEARCH_STRING
+    SET_SEARCH_STRING,
+    CLEAR_RESULTS
 
 } from '../actions/types'
 
@@ -39,6 +40,13 @@ export const load_choice = (id, region) => async (dispatch) => {
 export const clear_search = () => dispatch => {
     dispatch({
         type: CLEAR_SEARCH
+    });
+    return Promise.resolve();
+};
+
+export const clear_results = () => dispatch => {
+    dispatch({
+        type: CLEAR_RESULTS
     });
     return Promise.resolve();
 };

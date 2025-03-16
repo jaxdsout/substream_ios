@@ -6,7 +6,8 @@ import {
     CLEAR_SEARCH,
     BACK_TO_RESULTS,
     CHANGE_FILTER,
-    SET_SEARCH_STRING
+    SET_SEARCH_STRING,
+    CLEAR_RESULTS
 
 } from '../actions/types'
 
@@ -15,7 +16,7 @@ const initialState = {
     choice: null,
     searchString: '',
     filter: 2,
-    isLoading: false,
+    isLoaded: false,
     region: 'US'
 };
 
@@ -25,18 +26,25 @@ export default function rootReducer(state = initialState, action) {
         case SEARCH_SUCCESS:
             return {
                 ...state,
-                results: payload
+                results: payload,
+                isLoaded: true
             }
         case SEARCH_FAIL:
             return {
                 ...state,
-                results: []
+                results: [],
+                isLoaded: false
             }
         case CLEAR_SEARCH:
             return {
                 ...state,
                 searchString: '',
                 choice: null,
+                isLoaded: false
+            }
+        case CLEAR_RESULTS:
+            return {
+                ...state,
                 results: []
             }
         case LOAD_CHOICE_SUCCESS:

@@ -10,13 +10,17 @@ const Card = ({ result, region, load_choice }) => {
     await load_choice(result.id, region)
     router.push(`/choice/${result.id}`)
   }
+
+  const posterLarge = result.image_url.replace('w185', 'w780');
+
+  console.log(result, "result")
   
   return (
-    <View className='px-4 py-4 flex flex-col items-center justify-center'>
+    <View className='p-3 flex flex-col items-center justify-cente z-30'>
       <TouchableOpacity onPress={handleChoice}>
-        <Image source={{ uri: result.image_url }} className='h-80 w-48 rounded-lg' />
-        <View className="absolute bottom-0 w-full bg-black/70 p-2">
-          <Text className="text-white text-center">
+        <Image source={{ uri: posterLarge }} className='h-80 w-44 rounded-lg' />
+        <View className="absolute bottom-0 w-full bg-black/70 p-2 rounded-bl-lg rounded-br-lg">
+          <Text className="text-[#a5d294] text-center text-sm">
             {result.name.length > 40 ? result.name.substring(0, 37) + '...' : result.name}
           </Text>
         </View>
